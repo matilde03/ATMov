@@ -1,3 +1,52 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_subtitle">Select a functional branch</string>
+
+    <string name="title_sensor">Sensor Readings</string>
+    <string name="desc_sensor">View real-time environment metrics &amp; min/max stats</string>
+
+    <string name="title_config">Configuration</string>
+    <string name="desc_config">Set high/low alarm thresholds &amp; enable switches</string>
+
+    <string name="title_repository">Repository</string>
+    <string name="desc_repository">Access history log of the last 10 readings</string>
+
+    <!-- Sensor Readings Screen -->
+    <string name="sensor_temperature">Temperature</string>
+    <string name="sensor_humidity">Humidity</string>
+    <string name="sensor_luminosity">Luminosity</string>
+    <string name="live_reading">Live Value</string>
+    <string name="historical_stats">Historical Min / Max</string>
+    <string name="temp_live_default">23.5 °C</string>
+    <string name="temp_min_max_default">Min: 18.0 °C (N/A) | Max: 29.5 °C (N/A)</string>
+    <string name="reset_min_max">Reset Maximums &amp; Minimums</string>
+    <string name="min_max_reset_done">Historical min/max statistics reset</string>
+
+    <!-- Config Screen -->
+    <string name="alarm_settings">Alarm Settings</string>
+    <string name="enable_alarm">Enable Alarm</string>
+    <string name="high_threshold">High Threshold</string>
+    <string name="low_threshold">Low Threshold</string>
+    <string name="save_configuration">Save Configuration</string>
+    <string name="config_saved">Configuration saved successfully</string>
+    <string name="operation_mode">Operation Mode</string>
+    <string name="notification_mode_toggle">Enable Notification Mode</string>
+
+    <!-- Repository Screen -->
+    <string name="repository_title">Reading History</string>
+    <string name="recent_readings_count">Last 10 Sensor Readings Log</string>
+    <string name="clear_repository">Clear History</string>
+    <string name="repository_cleared">Repository history cleared</string>
+
+    <!-- Alarms -->
+    <string name="alarm_temp_high">High Temperature Alert: %.1f °C exceeds %.1f °C</string>
+    <string name="alarm_temp_low">Low Temperature Alert: %.1f °C is below %.1f °C</string>
+    <string name="alarm_hum_high">High Humidity Alert: %.0f %% exceeds %.0f %%</string>
+    <string name="alarm_hum_low">Low Humidity Alert: %.0f %% is below %.0f %%</string>
+    <string name="alarm_lum_high">High Luminosity Alert: %.0f lx exceeds %.0f lx</string>
+    <string name="alarm_lum_low">Low Luminosity Alert: %.0f lx is below %.0f lx</string>
+    <string name="sensor_icon">Sensor Icon</string>
+    <string name="config_icon">Configuration Icon</string>
+    <string name="repository_icon">Repository Icon</string>
 </resources>
