@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.Locale;
 
@@ -25,6 +28,10 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor);
+
+        Toolbar toolbar = findViewById(R.id.toolbarSensor);
+        toolbar.setNavigationOnClickListener(v -> finish());
+
 
         tvTempLive = findViewById(R.id.tvTempLive);
         tvHumidityLive = findViewById(R.id.tvHumidityLive);
