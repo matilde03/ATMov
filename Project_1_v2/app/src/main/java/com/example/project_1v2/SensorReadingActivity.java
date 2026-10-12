@@ -22,7 +22,6 @@ import com.google.android.material.button.MaterialButton;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
 
 public class SensorReadingActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -38,48 +37,18 @@ public class SensorReadingActivity extends AppCompatActivity implements SensorEv
     private TextView tvHumidityLive, tvHumidityMinMax;
     private TextView tvLuminosityLive, tvLuminosityMinMax;
 
-    private float currentTemp = 22.5f;
-    private float currentHumidity = 48.0f;
-    private float currentLuminosity = 350.0f;
-
-    private boolean isSimulatingTemp = false;
-    private boolean isSimulatingHum = false;
-    private boolean isSimulatingLight = false;
-
-    private float simStep = 0.0f;
+    private float currentTemp = 0.0f;
+    private float currentHumidity = 0.0f;
+    private float currentLuminosity = 0.0f;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final Random random = new Random();
 
-    private final Runnable simulationRunnable = new Runnable() {
-        @Override
-        public void run() {
-            String timestamp = getCurrentTimestamp();
-            simStep += 0.15f;
-
-            if (isSimulatingTemp) {
-                float targetTemp = 22.5f + (float) Math.sin(simStep) * 2.5f + (random.nextFloat() - 0.5f) * 0.3f;
-                currentTemp = Math.max(18.0f, Math.min(28.0f, targetTemp));
-                processTempUpdate(currentTemp, timestamp);
-            }
-            if (isSimulatingHum) {
-                float targetHum = 48.0f + (float) Math.cos(simStep) * 6.0f + (random.nextFloat() - 0.5f) * 1.0f;
-                currentHumidity = Math.max(30.0f, Math.min(70.0f, targetHum));
-                processHumUpdate(currentHumidity, timestamp);
-            }
-            if (isSimulatingLight) {
-                float targetLight = 350.0f + (float) Math.sin(simStep * 0.5f) * 100.0f + (random.nextFloat() - 0.5f) * 15.0f;
-                currentLuminosity = Math.max(100.0f, Math.min(800.0f, targetLight));
-                processLightUpdate(currentLuminosity, timestamp);
-            }
-            handler.postDelayed(this, 2000);
-        }
-    };
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
     private final Runnable repositoryLoggerRunnable = new Runnable() {
         @Override
         public void run() {
-            String timestamp = getCurrentTimestamp();
+            String timestamp = sdf.format(new Date());
             dbHelper.addReading(currentTemp, currentHumidity, currentLuminosity, timestamp);
             handler.postDelayed(this, 5000);
         }
@@ -124,17 +93,14 @@ public class SensorReadingActivity extends AppCompatActivity implements SensorEv
             tempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
             humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
             lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+
+            if (tempSensor == null || humiditySensor == null || lightSensor == null) {
+                Toast.makeText(this, "Warning: One or more physical sensors are missing on this device.", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, "Error: Sensor Manager is unavailable.", Toast.LENGTH_LONG).show();
         }
 
-        isSimulatingTemp = (tempSensor == null);
-        isSimulatingHum = (humiditySensor == null);
-        isSimulatingLight = (lightSensor == null);
-
-        // Immediate UI initialization
-        String initTimestamp = getCurrentTimestamp();
-        processTempUpdate(currentTemp, initTimestamp);
-        processHumUpdate(currentHumidity, initTimestamp);
-        processLightUpdate(currentLuminosity, initTimestamp);
         updateMinMaxDisplays();
     }
 
@@ -153,9 +119,6 @@ public class SensorReadingActivity extends AppCompatActivity implements SensorEv
             }
         }
 
-        if (isSimulatingTemp || isSimulatingHum || isSimulatingLight) {
-            handler.post(simulationRunnable);
-        }
         handler.post(repositoryLoggerRunnable);
     }
 
@@ -165,18 +128,16 @@ public class SensorReadingActivity extends AppCompatActivity implements SensorEv
         if (sensorManager != null) {
             sensorManager.unregisterListener(this);
         }
-        handler.removeCallbacks(simulationRunnable);
         handler.removeCallbacks(repositoryLoggerRunnable);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        String timestamp = getCurrentTimestamp();
+        String timestamp = sdf.format(new Date());
         int type = event.sensor.getType();
 
         if (type == Sensor.TYPE_AMBIENT_TEMPERATURE) {
             float val = event.values[0];
-            // Validate sensor reading range (ignore uninitialized 0.0 or extreme outliers on emulators)
             if (val != 0.0f && val >= -30.0f && val <= 80.0f) {
                 currentTemp = val;
                 processTempUpdate(currentTemp, timestamp);
@@ -306,8 +267,5 @@ public class SensorReadingActivity extends AppCompatActivity implements SensorEv
         tvLuminosityMinMax.setText(String.format("Min: %s\nMax: %s", minStr, maxStr));
     }
 
-    private String getCurrentTimestamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return sdf.format(new Date());
-    }
+
 }
