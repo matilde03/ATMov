@@ -29,6 +29,7 @@
     <string name="high_threshold">High Threshold</string>
     <string name="low_threshold">Low Threshold</string>
     <string name="save_configuration">Save Configuration</string>
+    <string name="btn_cancel">Cancel</string>
     <string name="config_saved">Configuration saved successfully</string>
     <string name="operation_mode">Operation Mode</string>
     <string name="notification_mode_toggle">Enable Notification Mode</string>
