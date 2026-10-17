@@ -175,10 +175,10 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         if (prefsManager.isTempAlarmEnabled()) {
             if (temp > prefsManager.getTempHigh()) {
                 String msg = getString(R.string.alarm_temp_high, temp, prefsManager.getTempHigh());
-                //NotificationHelper.sendAlarmNotification(this, 101, getString(R.string.title_sensor), msg);
+                Notifications.sendAlarmNotification(this, 101, getString(R.string.title_sensor), msg);
             } else if (temp < prefsManager.getTempLow()) {
                 String msg = getString(R.string.alarm_temp_low, temp, prefsManager.getTempLow());
-                //NotificationHelper.sendAlarmNotification(this, 102, getString(R.string.title_sensor), msg);
+                Notifications.sendAlarmNotification(this, 102, getString(R.string.title_sensor), msg);
             }
         }
     }
@@ -197,10 +197,10 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         if (prefsManager.isHumidityAlarmEnabled()) {
             if (hum > prefsManager.getHumidityHigh()) {
                 String msg = getString(R.string.alarm_hum_high, hum, prefsManager.getHumidityHigh());
-                //NotificationHelper.sendAlarmNotification(this, 201, getString(R.string.title_sensor), msg);
+                Notifications.sendAlarmNotification(this, 201, getString(R.string.title_sensor), msg);
             } else if (hum < prefsManager.getHumidityLow()) {
                 String msg = getString(R.string.alarm_hum_low, hum, prefsManager.getHumidityLow());
-                //NotificationHelper.sendAlarmNotification(this, 202, getString(R.string.title_sensor), msg);
+                Notifications.sendAlarmNotification(this, 202, getString(R.string.title_sensor), msg);
             }
         }
     }
@@ -219,10 +219,10 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         if (prefsManager.isLuminosityAlarmEnabled()) {
             if (light > prefsManager.getLuminosityHigh()) {
                 String msg = getString(R.string.alarm_lum_high, light, prefsManager.getLuminosityHigh());
-                //NotificationHelper.sendAlarmNotification(this, 301, getString(R.string.title_sensor), msg);
+                Notifications.sendAlarmNotification(this, 301, getString(R.string.title_sensor), msg);
             } else if (light < prefsManager.getLuminosityLow()) {
                 String msg = getString(R.string.alarm_lum_low, light, prefsManager.getLuminosityLow());
-                //NotificationHelper.sendAlarmNotification(this, 302, getString(R.string.title_sensor), msg);
+                Notifications.sendAlarmNotification(this, 302, getString(R.string.title_sensor), msg);
             }
         }
     }

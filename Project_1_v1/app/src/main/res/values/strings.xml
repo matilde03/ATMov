@@ -19,6 +19,8 @@
     <string name="live_reading">Live Value</string>
     <string name="historical_stats">Historical Min / Max</string>
     <string name="temp_live_default">23.5 °C</string>
+    <string name="humidity_live_default">45 %</string>
+    <string name="luminosity_live_default">350 lx</string>
     <string name="temp_min_max_default">Min: 18.0 °C (N/A) | Max: 29.5 °C (N/A)</string>
     <string name="reset_min_max">Reset Maximums &amp; Minimums</string>
     <string name="min_max_reset_done">Historical min/max statistics reset</string>
