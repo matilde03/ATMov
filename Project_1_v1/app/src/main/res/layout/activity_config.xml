@@ -75,7 +75,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchNotificationMode"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchTempAlarm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -136,14 +136,17 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/switchTempAlarm">
+                        app:layout_constraintTop_toBottomOf="@+id/switchTempAlarm"
+                        tools:ignore="DuplicateSpeakableTextCheck">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etTempHigh"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/high_threshold"
-                            android:inputType="number|numberDecimal" />
+                            android:importantForAutofill="no"
+                            android:inputType="numberDecimal|numberSigned"
+                            tools:ignore="DuplicateSpeakableTextCheck" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -158,14 +161,17 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tilTempHigh">
+                        app:layout_constraintTop_toBottomOf="@+id/tilTempHigh"
+                        tools:ignore="DuplicateSpeakableTextCheck">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etTempLow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/low_threshold"
-                            android:inputType="number|numberDecimal" />
+                            android:importantForAutofill="no"
+                            android:inputType="numberDecimal|numberSigned"
+                            tools:ignore="DuplicateSpeakableTextCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -190,7 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchHumidityAlarm"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -214,14 +220,17 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/switchHumidityAlarm">
+                        app:layout_constraintTop_toBottomOf="@+id/switchHumidityAlarm"
+                        tools:ignore="DuplicateSpeakableTextCheck">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etHumidityHigh"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/high_threshold"
-                            android:inputType="number|numberDecimal" />
+                            android:importantForAutofill="no"
+                            android:inputType="number|numberDecimal"
+                            tools:ignore="DuplicateSpeakableTextCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -235,14 +244,17 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tilHumidityHigh">
+                        app:layout_constraintTop_toBottomOf="@+id/tilHumidityHigh"
+                        tools:ignore="DuplicateSpeakableTextCheck">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etHumidityLow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/low_threshold"
-                            android:inputType="number|numberDecimal" />
+                            android:importantForAutofill="no"
+                            android:inputType="number|numberDecimal"
+                            tools:ignore="DuplicateSpeakableTextCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -266,7 +278,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switchLuminosityAlarm"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -290,14 +302,17 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/switchLuminosityAlarm">
+                        app:layout_constraintTop_toBottomOf="@+id/switchLuminosityAlarm"
+                        tools:ignore="DuplicateSpeakableTextCheck">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLuminosityHigh"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/high_threshold"
-                            android:inputType="number|numberDecimal" />
+                            android:importantForAutofill="no"
+                            android:inputType="number|numberDecimal"
+                            tools:ignore="DuplicateSpeakableTextCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -311,14 +326,17 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tilLuminosityHigh">
+                        app:layout_constraintTop_toBottomOf="@+id/tilLuminosityHigh"
+                        tools:ignore="DuplicateSpeakableTextCheck">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLuminosityLow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/low_threshold"
-                            android:inputType="number|numberDecimal" />
+                            android:importantForAutofill="no"
+                            android:inputType="number|numberDecimal"
+                            tools:ignore="DuplicateSpeakableTextCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -345,14 +363,16 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:text="@string/reset_min_max" />
+                    android:text="@string/reset_min_max"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/btnSave"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/save_configuration" />
+                    android:text="@string/save_configuration"
+                    tools:ignore="ButtonStyle" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
