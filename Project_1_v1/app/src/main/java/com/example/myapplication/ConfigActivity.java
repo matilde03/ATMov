@@ -33,9 +33,10 @@ public class ConfigActivity extends AppCompatActivity {
         Preferences prefs = new Preferences(this); // Initialize the Preferences class
 
         // Set up the switch buttons and their listeners
+        // Not necessary to push on Save, to Save the configurations
         SwitchCompat switchNotification = findViewById(R.id.switchNotificationMode); // Find the switch by its ID
         switchNotification.setChecked(prefs.isNotificationMode()); // Set the switch state based on the saved value
-        switchNotification.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.setNotificationMode(isChecked)); // Set the listener for the switch
+        switchNotification.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.setNotificationMode(isChecked)); // Set the listener for the switch (stays on listening)
 
         SwitchCompat switchTempAlarm = findViewById(R.id.switchTempAlarm);
         switchTempAlarm.setChecked(prefs.isTempAlarmEnabled());
