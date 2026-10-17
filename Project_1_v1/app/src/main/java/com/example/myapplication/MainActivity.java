@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     // Show a failure message.
-                    Toast.makeText(this, "Alarm notifications are disabled.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Alarm notifications are disabled.", Toast.LENGTH_LONG).show();
 
                 }
 

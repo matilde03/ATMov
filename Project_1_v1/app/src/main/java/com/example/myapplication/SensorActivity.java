@@ -131,7 +131,7 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
 
         if (type == Sensor.TYPE_AMBIENT_TEMPERATURE) {
             float val = event.values[0];
-            if (val != 0.0f && val >= -30.0f && val <= 80.0f) {
+            if (val >= -30.0f && val <= 80.0f) {
                 currentTemp = val;
                 processTempUpdate(currentTemp, timestamp);
             }
