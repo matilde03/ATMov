@@ -81,11 +81,35 @@ public class ConfigActivity extends AppCompatActivity {
                 float lumLow = readNumber(etLuminosityLow);
                 float lumHigh = readNumber(etLuminosityHigh);
 
-                if (tempLow >= tempHigh || humLow >= humHigh || lumLow >= lumHigh) {
-                    Toast.makeText(this, "Low limit must be lower than High limit.", Toast.LENGTH_LONG).show();
+                // Clear messages from the previous attempt.
+                etTempLow.setError(null);
+                etHumidityLow.setError(null);
+                etLuminosityLow.setError(null);
 
-                    // Moves out of the lambda to avoid executing the rest of the code.
-                    // It does not close the activity, so we can correct the fields and try again.
+                if (tempLow >= tempHigh) {
+                    String message = "Temperature: Low (" + tempLow
+                            + ") must be lower than High (" + tempHigh + ").";
+                    etTempLow.setError(message);
+                    etTempLow.requestFocus(); // Moves the focus to the field.
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (humLow >= humHigh) {
+                    String message = "Humidity: Low (" + humLow
+                            + ") must be lower than High (" + humHigh + ").";
+                    etHumidityLow.setError(message);
+                    etHumidityLow.requestFocus();
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (lumLow >= lumHigh) {
+                    String message = "Luminosity: Low (" + lumLow
+                            + ") must be lower than High (" + lumHigh + ").";
+                    etLuminosityLow.setError(message);
+                    etLuminosityLow.requestFocus();
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -120,14 +144,40 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
-        // Set up the reset button and its listener.
-        // It removes the saved values and shows a success message.
-        // Without extremes kept, getters return the default values
-        // (in this case are infinite since they are not saved in Sensor Activity).
+        // Reset measured extremes and restore the six default alarm thresholds.
+        // Alarm switches and notification mode keep their current state.
         Button btnReset = findViewById(R.id.btnReset);
         btnReset.setOnClickListener(v -> {
+            // Remove recorded minimums, maximums and their timestamps.
             prefs.resetMinMax();
-            Toast.makeText(this, R.string.min_max_reset_done, Toast.LENGTH_SHORT).show();
+
+            // Save the default thresholds, so they remain after reopening the app.
+            prefs.setTempLow(15.0f);
+            prefs.setTempHigh(30.0f);
+            prefs.setHumidityLow(30.0f);
+            prefs.setHumidityHigh(70.0f);
+            prefs.setLuminosityLow(50.0f);
+            prefs.setLuminosityHigh(1000.0f);
+
+            // Refresh the visible fields with the values we have just saved.
+            etTempLow.setText(String.valueOf(prefs.getTempLow()));
+            etTempHigh.setText(String.valueOf(prefs.getTempHigh()));
+            etHumidityLow.setText(String.valueOf(prefs.getHumidityLow()));
+            etHumidityHigh.setText(String.valueOf(prefs.getHumidityHigh()));
+            etLuminosityLow.setText(String.valueOf(prefs.getLuminosityLow()));
+            etLuminosityHigh.setText(String.valueOf(prefs.getLuminosityHigh()));
+
+            // Remove validation errors left by a previous save attempt.
+            etTempLow.setError(null);
+            etTempHigh.setError(null);
+            etHumidityLow.setError(null);
+            etHumidityHigh.setError(null);
+            etLuminosityLow.setError(null);
+            etLuminosityHigh.setError(null);
+
+            Toast.makeText(this,
+                    "Min/max reset and default limits restored.",
+                    Toast.LENGTH_SHORT).show();
         });
     }
 
