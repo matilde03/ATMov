@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -51,12 +49,11 @@ public class ConfigActivity extends AppCompatActivity {
             SensorMonitoringService.sync(this);
         });
 
-        // 2. Notifications Master Switch (Enables/disables alarm notifications & checks permission)
+        // 2. Notifications Master Switch
         switchNotifications = findViewById(R.id.switchNotifications);
-        switchNotifications.setChecked(prefs.isEnableNotifications() && hasNotificationPermission());
+        switchNotifications.setChecked(prefs.isEnableNotifications() && Notifications.hasPermission(this));
         switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked && !hasNotificationPermission()) {
-                // Request permission on Android 13+ if not granted yet
+            if (isChecked && !Notifications.hasPermission(this)) {
                 ActivityCompat.requestPermissions(
                         this,
                         new String[]{Manifest.permission.POST_NOTIFICATIONS},
@@ -183,23 +180,6 @@ public class ConfigActivity extends AppCompatActivity {
         });
     }
 
-    private boolean hasNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            
-            // Check the current status of the permission
-            int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS);
-            
-            // Compare it to the GRANTED status
-            if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        // Older Android versions don't need to ask for this permission
-        return true;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -210,7 +190,7 @@ public class ConfigActivity extends AppCompatActivity {
             } else {
                 prefs.setEnableNotifications(false);
                 switchNotifications.setChecked(false);
-                Toast.makeText(this, "Notification permission denied.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Notifications disabled! Please enable them in the app settings.", Toast.LENGTH_LONG).show();
             }
         }
     }

@@ -12,6 +12,7 @@ import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 public class Notifications {
 
@@ -102,5 +103,27 @@ public class Notifications {
         if (manager != null) {
             manager.notify(notificationId, builder.build());
         }
+    }
+
+    public static boolean hasPermission(Context context) {
+        // Android 13 (TIRAMISU) and newer require asking the user for notification permission at runtime
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            
+            // Check if the app currently has permission to post notifications
+            int permissionCheckResult = ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+            );
+            
+            // If the permission status
+            if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        // For older Android versions (Android 12 and below), runtime permission is not needed
+        return true;
     }
 }
