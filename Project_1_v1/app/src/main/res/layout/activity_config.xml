@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -43,11 +45,12 @@
             android:clipToPadding="false"
             android:paddingBottom="32dp">
 
+
             <!-- Operation Mode Card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cwOperationMode"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
@@ -62,7 +65,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clsubOperationMode"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp">
 
                     <TextView
                         android:id="@+id/textView"
@@ -78,25 +82,44 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+
+                    <!-- Continuous monitoring -->
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switchNotificationMode"
+                        android:id="@+id/switchOperatingMode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:switchPadding="16dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="20dp"
-                        android:text="@string/notification_mode_toggle"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:switchPadding="16dp"
+                        android:text="@string/operating_mode_toggle"
+                        app:layout_constrainedWidth="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+                    <!-- Notification mode -->
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchNotifications"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="16dp"
+                        android:switchPadding="16dp"
+                        android:text="@string/notifications_toggle"
                         app:layout_constrainedWidth="true"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+                        app:layout_constraintTop_toBottomOf="@+id/switchOperatingMode" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
+
 
             <!-- Temperature Alarm Card -->
             <androidx.cardview.widget.CardView
@@ -180,10 +203,13 @@
                             android:importantForAutofill="no"
                             android:inputType="numberDecimal|numberSigned"
                             tools:ignore="DuplicateSpeakableTextCheck" />
+
                     </com.google.android.material.textfield.TextInputLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
+
 
             <!-- Humidity Alarm Card -->
             <androidx.cardview.widget.CardView
@@ -242,6 +268,7 @@
                             android:importantForAutofill="no"
                             android:inputType="number|numberDecimal"
                             tools:ignore="DuplicateSpeakableTextCheck" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -266,9 +293,13 @@
                             android:importantForAutofill="no"
                             android:inputType="number|numberDecimal"
                             tools:ignore="DuplicateSpeakableTextCheck" />
+
                     </com.google.android.material.textfield.TextInputLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
+
 
             <!-- Luminosity Alarm Card -->
             <androidx.cardview.widget.CardView
@@ -327,6 +358,7 @@
                             android:importantForAutofill="no"
                             android:inputType="number|numberDecimal"
                             tools:ignore="DuplicateSpeakableTextCheck" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -351,9 +383,13 @@
                             android:importantForAutofill="no"
                             android:inputType="number|numberDecimal"
                             tools:ignore="DuplicateSpeakableTextCheck" />
+
                     </com.google.android.material.textfield.TextInputLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
+
 
             <!-- Action Buttons inside ScrollView -->
             <LinearLayout
@@ -387,9 +423,11 @@
                     android:layout_weight="1"
                     android:text="@string/save_configuration"
                     tools:ignore="ButtonStyle" />
+
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

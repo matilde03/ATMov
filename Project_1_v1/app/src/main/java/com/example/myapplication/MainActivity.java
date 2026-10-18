@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         checkNotificationPermission();
+        SensorMonitoringService.sync(this);
 
         CardView cardSensor = findViewById(R.id.cwTemp);
         CardView cardConfig = findViewById(R.id.cwConfig);
@@ -50,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         cardRepository.setOnClickListener(v -> {
-            //Intent intent = new Intent(MainActivity.this, RepositoryActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, RepositoryActivity.class);
+            startActivity(intent);
         });
 
 

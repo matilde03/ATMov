@@ -8,6 +8,7 @@ public class Preferences {
     private static final String PREF_NAME = "sensor_monitor_prefs";
 
     // Configuration keys
+
     public static final String KEY_TEMP_HIGH = "temp_high";
     public static final String KEY_TEMP_LOW = "temp_low";
     public static final String KEY_TEMP_ALARM_ENABLED = "temp_alarm_enabled";
@@ -20,7 +21,8 @@ public class Preferences {
     public static final String KEY_LUMINOSITY_LOW = "luminosity_low";
     public static final String KEY_LUMINOSITY_ALARM_ENABLED = "luminosity_alarm_enabled";
 
-    public static final String KEY_NOTIFICATION_MODE = "notification_mode";
+    public static final String KEY_CONTINUOUS_MODE = "continuous_mode";
+    public static final String KEY_ENABLE_NOTIFICATIONS = "enable_notifications";
 
     // Min/Max statistics keys
     public static final String KEY_TEMP_MAX_VAL = "temp_max_val";
@@ -72,8 +74,10 @@ public class Preferences {
     public boolean isLuminosityAlarmEnabled() { return prefs.getBoolean(KEY_LUMINOSITY_ALARM_ENABLED, false); }
     public void setLuminosityAlarmEnabled(boolean enabled) { prefs.edit().putBoolean(KEY_LUMINOSITY_ALARM_ENABLED, enabled).apply(); }
 
-    public boolean isNotificationMode() { return prefs.getBoolean(KEY_NOTIFICATION_MODE, false); }
-    public void setNotificationMode(boolean enabled) { prefs.edit().putBoolean(KEY_NOTIFICATION_MODE, enabled).apply(); }
+    public boolean isContinuousMode() { return prefs.getBoolean(KEY_CONTINUOUS_MODE, false); }
+    public void setContinuousMode(boolean enabled) { prefs.edit().putBoolean(KEY_CONTINUOUS_MODE, enabled).apply(); }
+    public boolean isEnableNotifications() { return prefs.getBoolean(KEY_ENABLE_NOTIFICATIONS, false); }
+    public void setEnableNotifications(boolean enabled) { prefs.edit().putBoolean(KEY_ENABLE_NOTIFICATIONS, enabled).apply(); }
 
     // Min / Max Stats
     public float getTempMaxVal() { return prefs.getFloat(KEY_TEMP_MAX_VAL, Float.NEGATIVE_INFINITY); }
