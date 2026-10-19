@@ -76,7 +76,7 @@ public class Preferences {
 
     public boolean isContinuousMode() { return prefs.getBoolean(KEY_CONTINUOUS_MODE, false); }
     public void setContinuousMode(boolean enabled) { prefs.edit().putBoolean(KEY_CONTINUOUS_MODE, enabled).apply(); }
-    public boolean isEnableNotifications() { return prefs.getBoolean(KEY_ENABLE_NOTIFICATIONS, false); }
+    public boolean isEnableNotifications() { return prefs.getBoolean(KEY_ENABLE_NOTIFICATIONS, true); }
     public void setEnableNotifications(boolean enabled) { prefs.edit().putBoolean(KEY_ENABLE_NOTIFICATIONS, enabled).apply(); }
 
     // Min / Max Stats
