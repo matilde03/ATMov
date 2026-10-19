@@ -93,7 +93,7 @@ public class SensorMonitor implements SensorEventListener {
         float val = event.values[0];
 
         if (type == Sensor.TYPE_AMBIENT_TEMPERATURE) {
-            if (val >= -30.0f && val <= 80.0f) {
+            if (val >= -273.1f && val <= 100.0f) {
                 processTempUpdate(val, nowMillis, timestamp);
             }
         } else if (type == Sensor.TYPE_RELATIVE_HUMIDITY) {
@@ -101,7 +101,7 @@ public class SensorMonitor implements SensorEventListener {
                 processHumUpdate(val, nowMillis, timestamp);
             }
         } else if (type == Sensor.TYPE_LIGHT) {
-            if (val >= 0.0f) {
+            if (val >= 0.0f && val <= 40000.0f) {
                 processLightUpdate(val, nowMillis, timestamp);
             }
         }
