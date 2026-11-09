@@ -1,0 +1,184 @@
+Wed Aug 17 18:28:04 2016:	* -----/|-------------------------------------------------------------------- *
+Wed Aug 17 18:28:04 2016:	*     / |__                                                                   *
+Wed Aug 17 18:28:04 2016:	*    /_   /   MSP Flasher v1.3.10                                             *
+Wed Aug 17 18:28:04 2016:	*      | /                                                                    *
+Wed Aug 17 18:28:04 2016:	* -----|/-------------------------------------------------------------------- *
+Wed Aug 17 18:28:04 2016:	*
+Wed Aug 17 18:28:04 2016:	* Evaluating triggers...done
+Wed Aug 17 18:28:04 2016:	* Checking for available FET debuggers: 
+Wed Aug 17 18:28:05 2016:	* Found USB FET @ ttyACM0 <- Selected
+Wed Aug 17 18:28:05 2016:	* Initializing interface @ ttyACM0...done
+Wed Aug 17 18:28:05 2016:	* Checking firmware compatibility: 
+Wed Aug 17 18:28:05 2016:	* The firmware of your FET is outdated.
+Wed Aug 17 18:28:05 2016:	- Would you like to update it? (Y/N): Wed Aug 17 18:28:07 2016:	n
+Wed Aug 17 18:28:07 2016:	* Warning: FW mismatch! Correct functionality not guaranteed!
+Wed Aug 17 18:28:07 2016:	* Reading FW version...done
+Wed Aug 17 18:28:07 2016:	* Setting VCC to 3000 mV...done
+Wed Aug 17 18:28:08 2016:	* Accessing device...done
+Wed Aug 17 18:28:08 2016:	* Reading device information...done
+Wed Aug 17 18:28:08 2016:	* Loading file into device...done
+Wed Aug 17 18:28:13 2016:	* Verifying memory (unicast-sender.hex)...done
+Wed Aug 17 18:28:15 2016:	* 
+Wed Aug 17 18:28:15 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:28:15 2016:	* Arguments   : -n MSP430F5438A -e ERASE_MAIN -w unicast-sender.hex -v -z [VCC] 
+Wed Aug 17 18:28:15 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:28:15 2016:	* Driver      : loaded
+Wed Aug 17 18:28:15 2016:	* Dll Version : -1
+Wed Aug 17 18:28:15 2016:	* FwVersion   : 30402007
+Wed Aug 17 18:28:15 2016:	* Interface   : TIUSB
+Wed Aug 17 18:28:15 2016:	* HwVersion   : U 1.40
+Wed Aug 17 18:28:15 2016:	* JTAG Mode   : AUTO
+Wed Aug 17 18:28:15 2016:	* Device      : MSP430F5438A
+Wed Aug 17 18:28:15 2016:	* EEM         : Level 7, ClockCntrl 2
+Wed Aug 17 18:28:15 2016:	* Erase Mode  : ERASE_MAIN
+Wed Aug 17 18:28:15 2016:	* Prog.File   : unicast-sender.hex
+Wed Aug 17 18:28:15 2016:	* Verified    : TRUE
+Wed Aug 17 18:28:15 2016:	* BSL Unlock  : FALSE
+Wed Aug 17 18:28:15 2016:	* InfoA Access: FALSE
+Wed Aug 17 18:28:15 2016:	* VCC ON      : 3000 mV
+Wed Aug 17 18:28:15 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:28:15 2016:	* Starting target code execution...done
+Wed Aug 17 18:28:16 2016:	* Disconnecting from device...done
+Wed Aug 17 18:28:16 2016:	* 
+Wed Aug 17 18:28:16 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:28:16 2016:	* Driver      : closed (No error)
+Wed Aug 17 18:28:16 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:28:16 2016:	*/
+Wed Aug 17 18:28:50 2016:	* -----/|-------------------------------------------------------------------- *
+Wed Aug 17 18:28:50 2016:	*     / |__                                                                   *
+Wed Aug 17 18:28:50 2016:	*    /_   /   MSP Flasher v1.3.10                                             *
+Wed Aug 17 18:28:50 2016:	*      | /                                                                    *
+Wed Aug 17 18:28:50 2016:	* -----|/-------------------------------------------------------------------- *
+Wed Aug 17 18:28:50 2016:	*
+Wed Aug 17 18:28:50 2016:	* Evaluating triggers...done
+Wed Aug 17 18:28:50 2016:	* Checking for available FET debuggers: 
+Wed Aug 17 18:28:51 2016:	* Found USB FET @ ttyACM0 <- Selected
+Wed Aug 17 18:28:51 2016:	* Initializing interface @ ttyACM0...done
+Wed Aug 17 18:28:51 2016:	* Checking firmware compatibility: 
+Wed Aug 17 18:28:51 2016:	* The firmware of your FET is outdated.
+Wed Aug 17 18:28:51 2016:	- Would you like to update it? (Y/N): Wed Aug 17 18:28:52 2016:	n
+Wed Aug 17 18:28:52 2016:	* Warning: FW mismatch! Correct functionality not guaranteed!
+Wed Aug 17 18:28:52 2016:	* Reading FW version...done
+Wed Aug 17 18:28:52 2016:	* Setting VCC to 3000 mV...done
+Wed Aug 17 18:28:53 2016:	* Accessing device...done
+Wed Aug 17 18:28:54 2016:	* Reading device information...done
+Wed Aug 17 18:28:54 2016:	* Loading file into device...done
+Wed Aug 17 18:28:59 2016:	* Verifying memory (unicast-sender.hex)...done
+Wed Aug 17 18:29:00 2016:	* 
+Wed Aug 17 18:29:00 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:29:00 2016:	* Arguments   : -n MSP430F5438A -e ERASE_MAIN -w unicast-sender.hex -v -z [VCC] 
+Wed Aug 17 18:29:00 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:29:00 2016:	* Driver      : loaded
+Wed Aug 17 18:29:00 2016:	* Dll Version : -1
+Wed Aug 17 18:29:00 2016:	* FwVersion   : 30402007
+Wed Aug 17 18:29:00 2016:	* Interface   : TIUSB
+Wed Aug 17 18:29:00 2016:	* HwVersion   : U 1.40
+Wed Aug 17 18:29:00 2016:	* JTAG Mode   : AUTO
+Wed Aug 17 18:29:00 2016:	* Device      : MSP430F5438A
+Wed Aug 17 18:29:00 2016:	* EEM         : Level 7, ClockCntrl 2
+Wed Aug 17 18:29:00 2016:	* Erase Mode  : ERASE_MAIN
+Wed Aug 17 18:29:00 2016:	* Prog.File   : unicast-sender.hex
+Wed Aug 17 18:29:00 2016:	* Verified    : TRUE
+Wed Aug 17 18:29:00 2016:	* BSL Unlock  : FALSE
+Wed Aug 17 18:29:00 2016:	* InfoA Access: FALSE
+Wed Aug 17 18:29:00 2016:	* VCC ON      : 3000 mV
+Wed Aug 17 18:29:00 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:29:00 2016:	* Starting target code execution...done
+Wed Aug 17 18:29:01 2016:	* Disconnecting from device...done
+Wed Aug 17 18:29:01 2016:	* 
+Wed Aug 17 18:29:01 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:29:01 2016:	* Driver      : closed (No error)
+Wed Aug 17 18:29:01 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:29:01 2016:	*/
+Wed Aug 17 18:29:48 2016:	* -----/|-------------------------------------------------------------------- *
+Wed Aug 17 18:29:48 2016:	*     / |__                                                                   *
+Wed Aug 17 18:29:48 2016:	*    /_   /   MSP Flasher v1.3.10                                             *
+Wed Aug 17 18:29:48 2016:	*      | /                                                                    *
+Wed Aug 17 18:29:48 2016:	* -----|/-------------------------------------------------------------------- *
+Wed Aug 17 18:29:48 2016:	*
+Wed Aug 17 18:29:48 2016:	* Evaluating triggers...done
+Wed Aug 17 18:29:48 2016:	* Checking for available FET debuggers: 
+Wed Aug 17 18:29:49 2016:	* Found USB FET @ ttyACM0 <- Selected
+Wed Aug 17 18:29:49 2016:	* Initializing interface @ ttyACM0...done
+Wed Aug 17 18:29:49 2016:	* Checking firmware compatibility: 
+Wed Aug 17 18:29:49 2016:	* The firmware of your FET is outdated.
+Wed Aug 17 18:29:49 2016:	- Would you like to update it? (Y/N): Wed Aug 17 18:29:51 2016:	n
+Wed Aug 17 18:29:51 2016:	* Warning: FW mismatch! Correct functionality not guaranteed!
+Wed Aug 17 18:29:51 2016:	* Reading FW version...done
+Wed Aug 17 18:29:51 2016:	* Setting VCC to 3000 mV...done
+Wed Aug 17 18:29:52 2016:	* Accessing device...done
+Wed Aug 17 18:29:53 2016:	* Reading device information...done
+Wed Aug 17 18:29:53 2016:	* Loading file into device...done
+Wed Aug 17 18:29:58 2016:	* Verifying memory (unicast-receiver.hex)...done
+Wed Aug 17 18:30:00 2016:	* 
+Wed Aug 17 18:30:00 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:00 2016:	* Arguments   : -n MSP430F5438A -e ERASE_MAIN -w unicast-receiver.hex -v -z [VCC] 
+Wed Aug 17 18:30:00 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:00 2016:	* Driver      : loaded
+Wed Aug 17 18:30:00 2016:	* Dll Version : -1
+Wed Aug 17 18:30:00 2016:	* FwVersion   : 30402007
+Wed Aug 17 18:30:00 2016:	* Interface   : TIUSB
+Wed Aug 17 18:30:00 2016:	* HwVersion   : U 1.40
+Wed Aug 17 18:30:00 2016:	* JTAG Mode   : AUTO
+Wed Aug 17 18:30:00 2016:	* Device      : MSP430F5438A
+Wed Aug 17 18:30:00 2016:	* EEM         : Level 7, ClockCntrl 2
+Wed Aug 17 18:30:00 2016:	* Erase Mode  : ERASE_MAIN
+Wed Aug 17 18:30:00 2016:	* Prog.File   : unicast-receiver.hex
+Wed Aug 17 18:30:00 2016:	* Verified    : TRUE
+Wed Aug 17 18:30:00 2016:	* BSL Unlock  : FALSE
+Wed Aug 17 18:30:00 2016:	* InfoA Access: FALSE
+Wed Aug 17 18:30:00 2016:	* VCC ON      : 3000 mV
+Wed Aug 17 18:30:00 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:00 2016:	* Starting target code execution...done
+Wed Aug 17 18:30:00 2016:	* Disconnecting from device...done
+Wed Aug 17 18:30:00 2016:	* 
+Wed Aug 17 18:30:00 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:00 2016:	* Driver      : closed (No error)
+Wed Aug 17 18:30:00 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:00 2016:	*/
+Wed Aug 17 18:30:11 2016:	* -----/|-------------------------------------------------------------------- *
+Wed Aug 17 18:30:11 2016:	*     / |__                                                                   *
+Wed Aug 17 18:30:11 2016:	*    /_   /   MSP Flasher v1.3.10                                             *
+Wed Aug 17 18:30:11 2016:	*      | /                                                                    *
+Wed Aug 17 18:30:11 2016:	* -----|/-------------------------------------------------------------------- *
+Wed Aug 17 18:30:11 2016:	*
+Wed Aug 17 18:30:11 2016:	* Evaluating triggers...done
+Wed Aug 17 18:30:11 2016:	* Checking for available FET debuggers: 
+Wed Aug 17 18:30:12 2016:	* Found USB FET @ ttyACM0 <- Selected
+Wed Aug 17 18:30:12 2016:	* Initializing interface @ ttyACM0...done
+Wed Aug 17 18:30:13 2016:	* Checking firmware compatibility: 
+Wed Aug 17 18:30:13 2016:	* The firmware of your FET is outdated.
+Wed Aug 17 18:30:13 2016:	- Would you like to update it? (Y/N): Wed Aug 17 18:30:14 2016:	n
+Wed Aug 17 18:30:14 2016:	* Warning: FW mismatch! Correct functionality not guaranteed!
+Wed Aug 17 18:30:14 2016:	* Reading FW version...done
+Wed Aug 17 18:30:14 2016:	* Setting VCC to 3000 mV...done
+Wed Aug 17 18:30:15 2016:	* Accessing device...done
+Wed Aug 17 18:30:16 2016:	* Reading device information...done
+Wed Aug 17 18:30:16 2016:	* Loading file into device...done
+Wed Aug 17 18:30:21 2016:	* Verifying memory (unicast-receiver.hex)...done
+Wed Aug 17 18:30:23 2016:	* 
+Wed Aug 17 18:30:23 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:23 2016:	* Arguments   : -n MSP430F5438A -e ERASE_MAIN -w unicast-receiver.hex -v -z [VCC] 
+Wed Aug 17 18:30:23 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:23 2016:	* Driver      : loaded
+Wed Aug 17 18:30:23 2016:	* Dll Version : -1
+Wed Aug 17 18:30:23 2016:	* FwVersion   : 30402007
+Wed Aug 17 18:30:23 2016:	* Interface   : TIUSB
+Wed Aug 17 18:30:23 2016:	* HwVersion   : U 1.40
+Wed Aug 17 18:30:23 2016:	* JTAG Mode   : AUTO
+Wed Aug 17 18:30:23 2016:	* Device      : MSP430F5438A
+Wed Aug 17 18:30:23 2016:	* EEM         : Level 7, ClockCntrl 2
+Wed Aug 17 18:30:23 2016:	* Erase Mode  : ERASE_MAIN
+Wed Aug 17 18:30:23 2016:	* Prog.File   : unicast-receiver.hex
+Wed Aug 17 18:30:23 2016:	* Verified    : TRUE
+Wed Aug 17 18:30:23 2016:	* BSL Unlock  : FALSE
+Wed Aug 17 18:30:23 2016:	* InfoA Access: FALSE
+Wed Aug 17 18:30:23 2016:	* VCC ON      : 3000 mV
+Wed Aug 17 18:30:23 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:23 2016:	* Starting target code execution...done
+Wed Aug 17 18:30:23 2016:	* Disconnecting from device...done
+Wed Aug 17 18:30:23 2016:	* 
+Wed Aug 17 18:30:23 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:23 2016:	* Driver      : closed (No error)
+Wed Aug 17 18:30:23 2016:	* ----------------------------------------------------------------------------
+Wed Aug 17 18:30:23 2016:	*/
