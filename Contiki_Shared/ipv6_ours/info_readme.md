@@ -67,3 +67,26 @@ The WSN uses a **star/tree (RPL) topology** with one central sink node and multi
 3. **`relay-node`** *(Optional — for multi-hop testing)*
    * **Role:** An intermediate `room-node` (or forwarding-only node) placed between `sink-node` and a distant `room-node` outside direct radio range to demonstrate RPL multi-hop routing.
 
+---
+
+## TODO List
+
+### Receiver — `sink-node` (`unicast-receiver_our.c`)
+- [ ] **Define message format / protocol:** Agree on a shared struct or text format for alarms (room ID, alarm type, values) and config commands (threshold, enable/disable).
+- [ ] **Notification buffer (last 5):** Store the last 5 received alarm notifications in a circular/FIFO buffer inside `receiver()`.
+- [ ] **Room node registry:** Save each reporting room's `sender_addr` so the sink can send configuration updates back.
+- [ ] **Serial console (`serial_line_event_message`):** Add interactive commands on the sink's serial port to:
+  - [ ] Print/consult the last 5 notifications.
+  - [ ] Modify the temperature threshold and push it to registered room nodes (`simple_udp_sendto`).
+  - [ ] Enable/disable alarm notifications and push the state to registered room nodes.
+- [ ] *(Optional — basic security)* Filter incoming alarms in `receiver()` against an allowlist of predefined room IPv6 addresses (`uip_ipaddr_cmp`) or node IDs.
+
+### Sender — `room-node` (`unicast-sender_our.c`)
+- [ ] **Activity indicator:** Add a 1-second `etimer` to toggle the **Green LED** continuously.
+- [ ] **Temperature monitoring:** Read/emulate room temperature and turn the **Red LED** ON when above the threshold (OFF otherwise).
+- [ ] **Presence & light control:** Read/emulate people presence and turn the **Yellow LED** ON when people are detected (OFF otherwise).
+- [ ] **Alarm reporting:** When alarm notifications are enabled and high temperature or presence is triggered, send an alarm packet to the sink via `simple_udp_sendto`.
+- [ ] **Config listener:** Parse incoming threshold and enable/disable commands from the sink inside `receiver()`.
+- [ ] *(Optional — basic security)* In `receiver()`, verify `uip_ipaddr_cmp(sender_addr, sink_addr)` (using the address from `servreg_hack_lookup`) before applying config updates.
+
+
