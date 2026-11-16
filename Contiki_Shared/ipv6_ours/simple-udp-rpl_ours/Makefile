@@ -1,6 +1,6 @@
-all: broadcast-example unicast-sender unicast-receiver
+all: unicast-sender_our unicast-receiver_our
 APPS=servreg-hack
-CONTIKI=../../..
+CONTIKI=/home/user/Desktop/contiki
 
 CONTIKI_WITH_IPV6 = 1
 include $(CONTIKI)/Makefile.include
