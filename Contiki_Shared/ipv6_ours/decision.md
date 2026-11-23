@@ -41,3 +41,25 @@ Every packet includes a monotonically increasing **sequence number (`seq`)** per
 * **Red LED (`LEDS_RED`):** **Latched packet-loss indicator** — turns **ON** whenever a sequence gap (`seq > last_seq + 1`) is detected from any room node, and turns **OFF** when cleared/acknowledged via the serial console.
 * **Yellow LED (`LEDS_YELLOW`):** **Unread alarm indicator** — turns **ON** when a new `ALARM` notification arrives, and turns **OFF** when the user consults the notifications on the serial console.
 
+---
+
+## 5. Sink Serial Console & 5-Notification Buffer (`sink-node`)
+
+### Serial Commands
+`thresh`, `alarm`, and `status` require a mandatory `<room|*>` target argument (`*` applies to all registered rooms):
+
+| Command | Example | Action |
+| :--- | :--- | :--- |
+| `help` | `help` | Prints all available commands. |
+| `alarms` | `alarms` | Prints the **last 5 alarm notifications** (oldest $\rightarrow$ newest) and turns **`LEDS_YELLOW` OFF**. |
+| `rooms` | `rooms` | Lists all registered rooms (`room_id`, IPv6 address, `last_seq`, `lost_packets`) and total packet loss. |
+| `thresh <room\|*> <val>` | `thresh 2 28` / `thresh * 28` | Sets the temperature threshold (°C) for one room or all rooms (`*`), increments `cfg_seq`, and sends `MSG_CFG`. |
+| `alarm <room\|*> <on\|off>` | `alarm 2 off` / `alarm * on` | Enables (`on`/`1`) or disables (`off`/`0`) alarm notifications for one room or all rooms (`*`), increments `cfg_seq`, and sends `MSG_CFG`. |
+| `status <room\|*>` | `status 2` / `status *` | Shows current `threshold`, `alarms_enabled`, and packet-loss stats for one room or all rooms (`*`). |
+| `clear` | `clear` | Resets packet-loss counters and turns **`LEDS_RED` OFF**. |
+
+### 5-Notification Buffer & Per-Room Config
+* **Circular FIFO Buffer (`alarm_buf[5]`):** Stores the last 5 received `MSG_ALARM` notifications (`room_id`, `seq`, `timestamp`, `temp`, `high_temp`, `presence`), overwriting the oldest entry when full.
+* **Per-Room State:** Each registered `room_entry` tracks its own `threshold` (default `25`) and `alarms_enabled` (default `1`) so individual rooms or all rooms (`*`) can be configured independently.
+
+
