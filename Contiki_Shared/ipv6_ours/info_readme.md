@@ -80,6 +80,7 @@ The WSN uses a **star/tree (RPL) topology** with one central sink node and multi
   - [ ] Modify the temperature threshold and push it to registered room nodes (`simple_udp_sendto`).
   - [ ] Enable/disable alarm notifications and push the state to registered room nodes.
 - [ ] *(Optional — basic security)* Filter incoming alarms in `receiver()` against an allowlist of predefined room IPv6 addresses (`uip_ipaddr_cmp`) or node IDs.
+- [ ] *(Optional — late-joiner sync)* Auto-sync current config (`MSG_CFG`) when a new room sends its first `PING`.
 
 ### Sender — `room-node` (`unicast-sender_our.c`)
 - [ ] **Activity indicator:** Add a 1-second `etimer` to toggle the **Green LED** continuously.
