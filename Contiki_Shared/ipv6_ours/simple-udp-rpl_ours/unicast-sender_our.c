@@ -42,6 +42,7 @@
 
 #include "simple-udp.h"
 #include "servreg-hack.h"
+#include "protocol.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -53,6 +54,9 @@
 #define SEND_TIME		(random_rand() % (SEND_INTERVAL))
 
 static struct simple_udp_connection unicast_connection;
+static int16_t temp_threshold = 25;
+static uint8_t alarms_enabled = 1;
+static uint32_t last_cfg_seq = 0;
 
 /*---------------------------------------------------------------------------*/
 PROCESS(unicast_sender_process, "Unicast sender example process");
@@ -67,8 +71,25 @@ receiver(struct simple_udp_connection *c,
          const uint8_t *data,
          uint16_t datalen)
 {
-  printf("Data received on port %d from port %d with length %d\n",
-         receiver_port, sender_port, datalen);
+  struct wsn_msg msg;
+
+  if(protocol_decode(data, datalen, &msg) < 0) {
+    printf("Invalid packet received on port %d (len %d)\n",
+           receiver_port, datalen);
+    return;
+  }
+
+  if(msg.type == MSG_CFG) {
+    if(msg.seq <= last_cfg_seq && last_cfg_seq != 0) {
+      return;
+    }
+    last_cfg_seq = msg.seq;
+    temp_threshold = msg.threshold;
+    alarms_enabled = msg.alarms_enabled;
+    printf("CFG received (seq %lu): threshold=%d, alarms_enabled=%u\n",
+           (unsigned long)msg.seq, (int)temp_threshold,
+           (unsigned int)alarms_enabled);
+  }
 }
 /*---------------------------------------------------------------------------*/
 static void
@@ -118,15 +139,24 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
     addr = servreg_hack_lookup(SERVICE_ID);
     if(addr != NULL) {
-      static unsigned int message_number;
-      char buf[20];
+      static uint32_t seq_number = 0;
+      struct wsn_msg msg;
+      uint8_t buf[PROTOCOL_MAX_BUF];
+      int len;
 
-      printf("Sending unicast to ");
-      uip_debug_ipaddr_print(addr);
-      printf("\n");
-      sprintf(buf, "Message %d", message_number);
-      message_number++;
-      simple_udp_sendto(&unicast_connection, buf, strlen(buf) + 1, addr);
+      seq_number++;
+      memset(&msg, 0, sizeof(msg));
+      msg.type = MSG_PING;
+      msg.room_id = node_id;
+      msg.seq = seq_number;
+
+      len = protocol_encode(&msg, buf, sizeof(buf));
+      if(len > 0) {
+        printf("Sending PING (seq %lu) to ", (unsigned long)seq_number);
+        uip_debug_ipaddr_print(addr);
+        printf("\n");
+        simple_udp_sendto(&unicast_connection, buf, len, addr);
+      }
     } else {
       printf("Service %d not found\n", SERVICE_ID);
     }

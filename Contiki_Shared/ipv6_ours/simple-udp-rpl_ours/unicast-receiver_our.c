@@ -40,6 +40,9 @@
 
 #include "simple-udp.h"
 #include "servreg-hack.h"
+#include "dev/leds.h"
+#include "dev/serial-line.h"
+#include "protocol.h"
 
 #include "net/rpl/rpl.h"
 
@@ -49,14 +52,89 @@
 #define UDP_PORT 1234
 #define SERVICE_ID 190
 
-#define SEND_INTERVAL		(10 * CLOCK_SECOND)
-#define SEND_TIME		(random_rand() % (SEND_INTERVAL))
+#define MAX_ROOMS 16
+
+struct room_entry {
+  uint8_t used;
+  uint16_t room_id;
+  uip_ipaddr_t addr;
+  uint8_t has_seq;
+  uint32_t last_seq;
+  uint32_t lost_packets;
+};
 
 static struct simple_udp_connection unicast_connection;
+static struct room_entry rooms[MAX_ROOMS];
+static uint32_t total_lost_packets = 0;
 
 /*---------------------------------------------------------------------------*/
 PROCESS(unicast_receiver_process, "Unicast receiver example process");
 AUTOSTART_PROCESSES(&unicast_receiver_process);
+/*---------------------------------------------------------------------------*/
+static struct room_entry *
+find_or_add_room(uint16_t room_id, const uip_ipaddr_t *addr)
+{
+  int i;
+  int free_idx = -1;
+
+  for(i = 0; i < MAX_ROOMS; i++) {
+    if(rooms[i].used && rooms[i].room_id == room_id) {
+      uip_ipaddr_copy(&rooms[i].addr, addr);
+      return &rooms[i];
+    }
+    if(!rooms[i].used && free_idx < 0) {
+      free_idx = i;
+    }
+  }
+
+  if(free_idx >= 0) {
+    memset(&rooms[free_idx], 0, sizeof(rooms[free_idx]));
+    rooms[free_idx].used = 1;
+    rooms[free_idx].room_id = room_id;
+    uip_ipaddr_copy(&rooms[free_idx].addr, addr);
+    return &rooms[free_idx];
+  }
+
+  return NULL;
+}
+/*---------------------------------------------------------------------------*/
+static void
+track_packet_loss(struct room_entry *room, uint32_t seq)
+{
+  if(room == NULL) {
+    return;
+  }
+
+  if(!room->has_seq) {
+    room->has_seq = 1;
+    room->last_seq = seq;
+    if(seq > 1) {
+      uint32_t lost = seq - 1;
+      room->lost_packets += lost;
+      total_lost_packets += lost;
+      leds_on(LEDS_RED);
+      printf("Packet loss detected from room %u: missed %lu packet(s) before seq %lu\n",
+             (unsigned int)room->room_id, (unsigned long)lost, (unsigned long)seq);
+    }
+    return;
+  }
+
+  if(seq > room->last_seq + 1) {
+    uint32_t lost = seq - (room->last_seq + 1);
+    room->lost_packets += lost;
+    total_lost_packets += lost;
+    leds_on(LEDS_RED);
+    printf("Packet loss detected from room %u: expected seq %lu, got %lu (lost %lu)\n",
+           (unsigned int)room->room_id,
+           (unsigned long)(room->last_seq + 1),
+           (unsigned long)seq,
+           (unsigned long)lost);
+  }
+
+  if(seq > room->last_seq) {
+    room->last_seq = seq;
+  }
+}
 /*---------------------------------------------------------------------------*/
 static void
 receiver(struct simple_udp_connection *c,
@@ -67,10 +145,32 @@ receiver(struct simple_udp_connection *c,
          const uint8_t *data,
          uint16_t datalen)
 {
-  printf("Data received from ");
-  uip_debug_ipaddr_print(sender_addr);
-  printf(" on port %d from port %d with length %d: '%s'\n",
-         receiver_port, sender_port, datalen, data);
+  struct wsn_msg msg;
+  struct room_entry *room;
+
+  if(protocol_decode(data, datalen, &msg) < 0) {
+    printf("Invalid packet from ");
+    uip_debug_ipaddr_print(sender_addr);
+    printf(" (len %d)\n", datalen);
+    return;
+  }
+
+  if(msg.type == MSG_PING) {
+    room = find_or_add_room(msg.room_id, sender_addr);
+    track_packet_loss(room, msg.seq);
+    printf("PING from room %u (seq %lu) [",
+           (unsigned int)msg.room_id, (unsigned long)msg.seq);
+    uip_debug_ipaddr_print(sender_addr);
+    printf("]\n");
+  } else if(msg.type == MSG_ALARM) {
+    room = find_or_add_room(msg.room_id, sender_addr);
+    track_packet_loss(room, msg.seq);
+    leds_on(LEDS_YELLOW);
+    printf("ALARM from room %u (seq %lu): temp=%d, high_temp=%u, presence=%u\n",
+           (unsigned int)msg.room_id, (unsigned long)msg.seq,
+           (int)msg.temp, (unsigned int)msg.high_temp,
+           (unsigned int)msg.presence);
+  }
 }
 /*---------------------------------------------------------------------------*/
 static uip_ipaddr_t *
@@ -119,6 +219,7 @@ create_rpl_dag(uip_ipaddr_t *ipaddr)
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(unicast_receiver_process, ev, data)
 {
+  static struct etimer led_timer;
   uip_ipaddr_t *ipaddr;
 
   PROCESS_BEGIN();
@@ -134,8 +235,25 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
   simple_udp_register(&unicast_connection, UDP_PORT,
                       NULL, UDP_PORT, receiver);
 
+  etimer_set(&led_timer, CLOCK_SECOND);
+
   while(1) {
     PROCESS_WAIT_EVENT();
+    if(ev == PROCESS_EVENT_TIMER && etimer_expired(&led_timer)) {
+      leds_toggle(LEDS_GREEN);
+      etimer_reset(&led_timer);
+    } else if(ev == serial_line_event_message && data != NULL) {
+      const char *cmd = (const char *)data;
+      if(strcmp(cmd, "clear") == 0) {
+        int i;
+        total_lost_packets = 0;
+        for(i = 0; i < MAX_ROOMS; i++) {
+          rooms[i].lost_packets = 0;
+        }
+        leds_off(LEDS_RED);
+        printf("Cleared packet loss counters and Red LED\n");
+      }
+    }
   }
   PROCESS_END();
 }
