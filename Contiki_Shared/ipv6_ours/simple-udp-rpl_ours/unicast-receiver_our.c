@@ -71,8 +71,7 @@ static uint32_t total_lost_packets = 0;
 PROCESS(unicast_receiver_process, "Unicast receiver example process");
 AUTOSTART_PROCESSES(&unicast_receiver_process);
 /*---------------------------------------------------------------------------*/
-static struct room_entry *
-find_or_add_room(uint16_t room_id, const uip_ipaddr_t *addr)
+static struct room_entry *find_or_add_room(uint16_t room_id, const uip_ipaddr_t *addr)
 {
   int i;
   int free_idx = -1;
@@ -324,8 +323,7 @@ static void cmd_status(const char *target_arg)
   }
 }
 /*---------------------------------------------------------------------------*/
-static void
-cmd_clear(void)
+static void cmd_clear(void)
 {
   int i;
   total_lost_packets = 0;
@@ -336,8 +334,7 @@ cmd_clear(void)
   printf("Cleared packet loss counters and Red LED\n");
 }
 /*---------------------------------------------------------------------------*/
-static void
-handle_serial_command(const char *line)
+static void handle_serial_command(const char *line)
 {
   char verb[16];
   char arg1[16];

@@ -4,8 +4,7 @@
 #include <string.h>
 
 /*---------------------------------------------------------------------------*/
-int
-protocol_encode(const struct wsn_msg *msg, uint8_t *buf, size_t buf_size)
+int protocol_encode(const struct wsn_msg *msg, uint8_t *buf, size_t buf_size)
 {
   int n;
 
@@ -48,8 +47,7 @@ protocol_encode(const struct wsn_msg *msg, uint8_t *buf, size_t buf_size)
   return n + 1;
 }
 /*---------------------------------------------------------------------------*/
-int
-protocol_decode(const uint8_t *buf, size_t len, struct wsn_msg *msg)
+int protocol_decode(const uint8_t *buf, size_t len, struct wsn_msg *msg)
 {
   char tmp[PROTOCOL_MAX_BUF];
   unsigned int room_id;

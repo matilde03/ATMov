@@ -62,8 +62,7 @@ static uint32_t last_cfg_seq = 0;
 PROCESS(unicast_sender_process, "Unicast sender example process");
 AUTOSTART_PROCESSES(&unicast_sender_process);
 /*---------------------------------------------------------------------------*/
-static void
-receiver(struct simple_udp_connection *c,
+static void receiver(struct simple_udp_connection *c,
          const uip_ipaddr_t *sender_addr,
          uint16_t sender_port,
          const uip_ipaddr_t *receiver_addr,
@@ -92,8 +91,7 @@ receiver(struct simple_udp_connection *c,
   }
 }
 /*---------------------------------------------------------------------------*/
-static void
-set_global_address(void)
+static void set_global_address(void)
 {
   uip_ipaddr_t ipaddr;
   int i;
