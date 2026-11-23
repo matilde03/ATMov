@@ -68,8 +68,10 @@ static struct room_entry rooms[MAX_ROOMS];
 static uint32_t total_lost_packets = 0;
 
 /*---------------------------------------------------------------------------*/
-PROCESS(unicast_receiver_process, "Unicast receiver example process");
-AUTOSTART_PROCESSES(&unicast_receiver_process);
+PROCESS(sink_net_process, "Sink network process");
+PROCESS(sink_led_process, "Sink activity LED process");
+PROCESS(sink_console_process, "Sink serial console process");
+AUTOSTART_PROCESSES(&sink_net_process, &sink_led_process, &sink_console_process);
 /*---------------------------------------------------------------------------*/
 static struct room_entry *find_or_add_room(uint16_t room_id, const uip_ipaddr_t *addr)
 {
@@ -377,9 +379,8 @@ static void handle_serial_command(const char *line)
   }
 }
 /*---------------------------------------------------------------------------*/
-PROCESS_THREAD(unicast_receiver_process, ev, data)
+PROCESS_THREAD(sink_net_process, ev, data)
 {
-  static struct etimer led_timer;
   uip_ipaddr_t *ipaddr;
 
   PROCESS_BEGIN();
@@ -395,18 +396,41 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
   simple_udp_register(&unicast_connection, UDP_PORT,
                       NULL, UDP_PORT, receiver);
 
+  while(1) {
+    PROCESS_WAIT_EVENT();
+  }
+
+  PROCESS_END();
+}
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(sink_led_process, ev, data)
+{
+  static struct etimer led_timer;
+
+  PROCESS_BEGIN();
+
   etimer_set(&led_timer, CLOCK_SECOND);
+
+  while(1) {
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&led_timer));
+    leds_toggle(LEDS_GREEN);
+    etimer_reset(&led_timer);
+  }
+
+  PROCESS_END();
+}
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(sink_console_process, ev, data)
+{
+  PROCESS_BEGIN();
+
   printf("Sink console ready. Type 'help' for commands.\n");
 
   while(1) {
-    PROCESS_WAIT_EVENT();
-    if(ev == PROCESS_EVENT_TIMER && etimer_expired(&led_timer)) {
-      leds_toggle(LEDS_GREEN);
-      etimer_reset(&led_timer);
-    } else if(ev == serial_line_event_message && data != NULL) {
-      handle_serial_command((const char *)data);
-    }
+    PROCESS_WAIT_EVENT_UNTIL(ev == serial_line_event_message && data != NULL);
+    handle_serial_command((const char *)data);
   }
+
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/

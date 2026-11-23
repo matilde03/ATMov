@@ -62,4 +62,21 @@ Every packet includes a monotonically increasing **sequence number (`seq`)** per
 * **Circular FIFO Buffer (`alarm_buf[5]`):** Stores the last 5 received `MSG_ALARM` notifications (`room_id`, `seq`, `timestamp`, `temp`, `high_temp`, `presence`), overwriting the oldest entry when full.
 * **Per-Room State:** Each registered `room_entry` tracks its own `threshold` (default `25`) and `alarms_enabled` (default `1`) so individual rooms or all rooms (`*`) can be configured independently.
 
+---
+
+## 6. Contiki Process (Protothread) Structure
+
+Each node separates independent responsibilities into dedicated stackless Contiki `PROCESS_THREAD`s started via `AUTOSTART_PROCESSES(...)`:
+
+* **`sink-node` (`unicast-receiver_our.c`) — Implemented:**
+  1. `sink_net_process` — IPv6 global address, RPL DAG root, `servreg-hack` registration, and `simple_udp_register()`.
+  2. `sink_led_process` — 1-second `etimer` toggling `LEDS_GREEN` (activity heartbeat).
+  3. `sink_console_process` — Waits on `serial_line_event_message` and dispatches CLI commands.
+
+* **`room-node` (`unicast-sender_our.c`) — Planned when room sensors/LEDs are added:**
+  1. `room_net_process` — `servreg-hack` lookup, periodic `PING`, sending `ALARM`, and receiving `CFG`.
+  2. `room_led_process` — 1-second `etimer` toggling `LEDS_GREEN`.
+  3. `room_sensor_process` — Periodic temperature/presence sampling, Red/Yellow LED actuation, and notifying `room_net_process` via Contiki events (`process_post`) when an alarm triggers.
+
+
 
