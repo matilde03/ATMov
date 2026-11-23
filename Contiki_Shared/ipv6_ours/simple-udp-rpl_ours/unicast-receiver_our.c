@@ -98,8 +98,7 @@ find_or_add_room(uint16_t room_id, const uip_ipaddr_t *addr)
   return NULL;
 }
 /*---------------------------------------------------------------------------*/
-static void
-track_packet_loss(struct room_entry *room, uint32_t seq)
+static void track_packet_loss(struct room_entry *room, uint32_t seq)
 {
   if(room == NULL) {
     return;
@@ -136,8 +135,7 @@ track_packet_loss(struct room_entry *room, uint32_t seq)
   }
 }
 /*---------------------------------------------------------------------------*/
-static void
-receiver(struct simple_udp_connection *c,
+static void receiver(struct simple_udp_connection *c,
          const uip_ipaddr_t *sender_addr,
          uint16_t sender_port,
          const uip_ipaddr_t *receiver_addr,
@@ -173,8 +171,7 @@ receiver(struct simple_udp_connection *c,
   }
 }
 /*---------------------------------------------------------------------------*/
-static uip_ipaddr_t *
-set_global_address(void)
+static uip_ipaddr_t * set_global_address(void)
 {
   static uip_ipaddr_t ipaddr;
   int i;
@@ -197,8 +194,7 @@ set_global_address(void)
   return &ipaddr;
 }
 /*---------------------------------------------------------------------------*/
-static void
-create_rpl_dag(uip_ipaddr_t *ipaddr)
+static void create_rpl_dag(uip_ipaddr_t *ipaddr)
 {
   struct uip_ds6_addr *root_if;
 
@@ -214,6 +210,173 @@ create_rpl_dag(uip_ipaddr_t *ipaddr)
     PRINTF("created a new RPL dag\n");
   } else {
     PRINTF("failed to create a new RPL DAG\n");
+  }
+}
+/*---------------------------------------------------------------------------*/
+static int parse_room_target(const char *arg, uint8_t *all_rooms, uint16_t *room_id)
+{
+  unsigned int id;
+  char extra;
+
+  if(arg == NULL || all_rooms == NULL || room_id == NULL) {
+    return -1;
+  }
+
+  if(strcmp(arg, "*") == 0) {
+    *all_rooms = 1;
+    *room_id = 0;
+    return 0;
+  }
+
+  if(sscanf(arg, "%u%c", &id, &extra) == 1) {
+    *all_rooms = 0;
+    *room_id = (uint16_t)id;
+    return 0;
+  }
+
+  return -1;
+}
+/*---------------------------------------------------------------------------*/
+static void cmd_help(void)
+{
+  printf("Available commands:\n");
+  printf("  help                      - Show this help message\n");
+  printf("  alarms                    - Show last 5 alarm notifications (clears Yellow LED)\n");
+  printf("  rooms                     - List registered rooms and packet-loss stats\n");
+  printf("  thresh <room|*> <val>     - Set temperature threshold (C) for room or all (*)\n");
+  printf("  alarm <room|*> <on|off>   - Enable/disable alarm notifications for room or all (*)\n");
+  printf("  status <room|*>           - Show config & stats for room or all (*)\n");
+  printf("  clear                     - Reset packet-loss counters (clears Red LED)\n");
+}
+/*---------------------------------------------------------------------------*/
+static void cmd_alarms(void)
+{
+  printf("[TODO] alarms: not implemented yet\n");
+}
+/*---------------------------------------------------------------------------*/
+static void cmd_rooms(void)
+{
+  printf("[TODO] rooms: not implemented yet\n");
+}
+/*---------------------------------------------------------------------------*/
+static void cmd_thresh(const char *target_arg, const char *val_arg)
+{
+  uint8_t all_rooms;
+  uint16_t room_id;
+  int val;
+  char extra;
+
+  if(parse_room_target(target_arg, &all_rooms, &room_id) < 0 ||
+     sscanf(val_arg, "%d%c", &val, &extra) != 1) {
+    printf("Usage: thresh <room|*> <val>\n");
+    return;
+  }
+
+  if(all_rooms) {
+    printf("[TODO] thresh: set all rooms (*) to %d C\n", val);
+  } else {
+    printf("[TODO] thresh: set room %u to %d C\n", (unsigned int)room_id, val);
+  }
+}
+/*---------------------------------------------------------------------------*/
+static void cmd_alarm(const char *target_arg, const char *state_arg)
+{
+  uint8_t all_rooms;
+  uint16_t room_id;
+  uint8_t enabled;
+
+  if(parse_room_target(target_arg, &all_rooms, &room_id) < 0) {
+    printf("Usage: alarm <room|*> <on|off>\n");
+    return;
+  }
+
+  if(strcmp(state_arg, "on") == 0 || strcmp(state_arg, "1") == 0) {
+    enabled = 1;
+  } else if(strcmp(state_arg, "off") == 0 || strcmp(state_arg, "0") == 0) {
+    enabled = 0;
+  } else {
+    printf("Usage: alarm <room|*> <on|off>\n");
+    return;
+  }
+
+  if(all_rooms) {
+    printf("[TODO] alarm: set all rooms (*) to %s\n", enabled ? "ON" : "OFF");
+  } else {
+    printf("[TODO] alarm: set room %u to %s\n",
+           (unsigned int)room_id, enabled ? "ON" : "OFF");
+  }
+}
+/*---------------------------------------------------------------------------*/
+static void cmd_status(const char *target_arg)
+{
+  uint8_t all_rooms;
+  uint16_t room_id;
+
+  if(parse_room_target(target_arg, &all_rooms, &room_id) < 0) {
+    printf("Usage: status <room|*>\n");
+    return;
+  }
+
+  if(all_rooms) {
+    printf("[TODO] status: show all rooms (*)\n");
+  } else {
+    printf("[TODO] status: show room %u\n", (unsigned int)room_id);
+  }
+}
+/*---------------------------------------------------------------------------*/
+static void
+cmd_clear(void)
+{
+  int i;
+  total_lost_packets = 0;
+  for(i = 0; i < MAX_ROOMS; i++) {
+    rooms[i].lost_packets = 0;
+  }
+  leds_off(LEDS_RED);
+  printf("Cleared packet loss counters and Red LED\n");
+}
+/*---------------------------------------------------------------------------*/
+static void
+handle_serial_command(const char *line)
+{
+  char verb[16];
+  char arg1[16];
+  char arg2[16];
+  int argc;
+
+  argc = sscanf(line, "%15s %15s %15s", verb, arg1, arg2);
+  if(argc <= 0) {
+    return;
+  }
+
+  if(strcmp(verb, "help") == 0) {
+    cmd_help();
+  } else if(strcmp(verb, "alarms") == 0) {
+    cmd_alarms();
+  } else if(strcmp(verb, "rooms") == 0) {
+    cmd_rooms();
+  } else if(strcmp(verb, "thresh") == 0) {
+    if(argc != 3) {
+      printf("Usage: thresh <room|*> <val>\n");
+    } else {
+      cmd_thresh(arg1, arg2);
+    }
+  } else if(strcmp(verb, "alarm") == 0) {
+    if(argc != 3) {
+      printf("Usage: alarm <room|*> <on|off>\n");
+    } else {
+      cmd_alarm(arg1, arg2);
+    }
+  } else if(strcmp(verb, "status") == 0) {
+    if(argc != 2) {
+      printf("Usage: status <room|*>\n");
+    } else {
+      cmd_status(arg1);
+    }
+  } else if(strcmp(verb, "clear") == 0) {
+    cmd_clear();
+  } else {
+    printf("Unknown command '%s'. Type 'help' for commands.\n", verb);
   }
 }
 /*---------------------------------------------------------------------------*/
@@ -236,6 +399,7 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
                       NULL, UDP_PORT, receiver);
 
   etimer_set(&led_timer, CLOCK_SECOND);
+  printf("Sink console ready. Type 'help' for commands.\n");
 
   while(1) {
     PROCESS_WAIT_EVENT();
@@ -243,16 +407,7 @@ PROCESS_THREAD(unicast_receiver_process, ev, data)
       leds_toggle(LEDS_GREEN);
       etimer_reset(&led_timer);
     } else if(ev == serial_line_event_message && data != NULL) {
-      const char *cmd = (const char *)data;
-      if(strcmp(cmd, "clear") == 0) {
-        int i;
-        total_lost_packets = 0;
-        for(i = 0; i < MAX_ROOMS; i++) {
-          rooms[i].lost_packets = 0;
-        }
-        leds_off(LEDS_RED);
-        printf("Cleared packet loss counters and Red LED\n");
-      }
+      handle_serial_command((const char *)data);
     }
   }
   PROCESS_END();
