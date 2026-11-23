@@ -1,0 +1,13 @@
+# Contiki / Cooja build outputs
+obj_*/
+*.cooja
+*.z1
+*.moteist5
+*.sky
+*.a
+*.map
+*.o
+*.d
+symbols.c
+symbols.h
+*.log
