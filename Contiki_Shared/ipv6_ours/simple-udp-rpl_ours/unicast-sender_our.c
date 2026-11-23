@@ -59,8 +59,10 @@ static uint8_t alarms_enabled = 1;
 static uint32_t last_cfg_seq = 0;
 
 /*---------------------------------------------------------------------------*/
-PROCESS(unicast_sender_process, "Unicast sender example process");
-AUTOSTART_PROCESSES(&unicast_sender_process);
+PROCESS(room_net_process, "Room network process");
+PROCESS(room_led_process, "Room activity LED process");
+PROCESS(room_sensor_process, "Room sensor and actuator process");
+AUTOSTART_PROCESSES(&room_net_process, &room_led_process, &room_sensor_process);
 /*---------------------------------------------------------------------------*/
 static void receiver(struct simple_udp_connection *c,
          const uip_ipaddr_t *sender_addr,
@@ -112,7 +114,7 @@ static void set_global_address(void)
   }
 }
 /*---------------------------------------------------------------------------*/
-PROCESS_THREAD(unicast_sender_process, ev, data)
+PROCESS_THREAD(room_net_process, ev, data)
 {
   static struct etimer periodic_timer;
   static struct etimer send_timer;
@@ -158,6 +160,31 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
     } else {
       printf("Service %d not found\n", SERVICE_ID);
     }
+  }
+
+  PROCESS_END();
+}
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(room_led_process, ev, data)
+{
+  PROCESS_BEGIN();
+
+  /* TODO: 1-second etimer toggling LEDS_GREEN (activity indicator) */
+  while(1) {
+    PROCESS_WAIT_EVENT();
+  }
+
+  PROCESS_END();
+}
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(room_sensor_process, ev, data)
+{
+  PROCESS_BEGIN();
+
+  /* TODO: periodic temperature/presence sensing, Red/Yellow LEDs,
+   * and process_post(&room_net_process, ...) to send MSG_ALARM when enabled */
+  while(1) {
+    PROCESS_WAIT_EVENT();
   }
 
   PROCESS_END();
